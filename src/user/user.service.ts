@@ -18,4 +18,10 @@ export class UserService {
         const newUser = this.userRepository.create(user);
         return this.userRepository.save(newUser)
     }
+
+    async findById(userId: number): Promise<User[]> {
+        return this.userRepository.findBy({
+            id: userId
+        });
+    }
 }

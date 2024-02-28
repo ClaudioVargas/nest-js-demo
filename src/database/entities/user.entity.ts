@@ -1,6 +1,5 @@
-// import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Publication } from "./publication.entity";
 
 @Entity()
 export class User {
@@ -12,5 +11,8 @@ export class User {
 
   @Column('text')
   email: string;
+
+  @OneToMany(() => Publication, (publication) => publication.user)
+    publicacion: Publication[]
 
 }
