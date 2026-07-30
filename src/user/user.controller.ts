@@ -1,7 +1,9 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDto } from './dtos/user.dto';
+import { JwtAuthGuard } from 'src/common/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('api/user')
 export class UserController {
 
@@ -9,7 +11,10 @@ export class UserController {
     private readonly userService: UserService) {}
 
   @Get()
-  findAll(): any {
+  findAll(@Req() req: Request): any { 
+    console.log("req", req, req.body)
+    const usuarioLogueado = req['user'];
+    console.log("usuarioLogueado", usuarioLogueado) 
     return this.userService.findAll();
   }
 

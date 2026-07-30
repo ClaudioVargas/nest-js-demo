@@ -24,6 +24,7 @@ export class AuthService {
         if (!isPasswordValid) throw new UnauthorizedException('Credenciales inválidas');
 
         // Retorna datos sin el password
+        console.log("validateUser => user", user)
         const { password: _, ...result } = user;
         return result;
     }
@@ -33,9 +34,10 @@ export class AuthService {
      */
     async generateJWT(user: any): Promise<{ access_token: string }> {
         const payload = { sub: user.id, email: user.email, name: user.name };
+        console.log("generateJWT => payload", payload)
         return {
             access_token: await this.jwtService.signAsync(payload, {
-                secret: process.env.JWT_SECRET || 'superSecretKey',
+                secret: process.env.JWT_SECRET || 'MI_PALABRA_SECRETA_SUPER_SEGURA',
                 expiresIn: '1h',
             }),
         };

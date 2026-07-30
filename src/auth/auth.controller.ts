@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import { LoginDto } from './dtos/login.dto';
 import { AuthService } from './auth.service';
 
@@ -11,13 +11,14 @@ export class AuthController {
 
 
   @Get()
-  test(): any {
-    return "test";
+  test(@Req() req: Request): any {
+    return req.body;
   }
 
   // auth.controller.ts
   @Post('login')
-  async login(@Body() credentials: LoginDto) {
+  async login(@Body() credentials: LoginDto, // Extrae solo el body
+              @Req() req: Request) {
     const user = await this.authService.validateUser(credentials.user, credentials.password);
     return this.authService.generateJWT(user);
   }
